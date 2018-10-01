@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+  // initialize firebase
   var config = {
     apiKey: "AIzaSyCMKhliavttsLO_AaIEO_nqwZWjgW4TY0M",
     authDomain: "trainscheduler-f4393.firebaseapp.com",
@@ -10,14 +11,20 @@ $(document).ready(function () {
   };
   firebase.initializeApp(config);
 
+  // set the var database to firebase
   var database = firebase.database();
+  var trainName = "";
+  var destination = "";
+  var firstTrain = "";
+  var frequency = "";
 
+  // on click function to grab information input from user
   $("#addTrainBtn").on("click", function () {
     event.preventDefault();
-    var trainName = $("#trainNameInput").val().trim();
-    var destination = $("#destinationInput").val().trim();
-    var firstTrain = $("#trainTimeInput").val().trim();
-    var frequency = $("#frequencyInput").val().trim();
+    trainName = $("#trainNameInput").val().trim();
+    destination = $("#destinationInput").val().trim();
+    firstTrain = $("#trainTimeInput").val().trim();
+    frequency = $("#frequencyInput").val().trim();
     var firstTime = moment(firstTrain, "hh:mm").subtract(1, "years");
     var currentTime = moment();
     var diffTime = moment().diff(moment(firstTime), "minutes");
@@ -25,7 +32,7 @@ $(document).ready(function () {
     var minutesTillTrain = frequency - tRemainder;
     var nextTrain = moment().add(minutesTillTrain, "minutes");
     var nextTrainTime = moment(nextTrain).format("hh:mm");
-    var newRow = [
+    var newRow = `
       <tr>
         <td>${trainNameInput}</td>
         <td>${destinationInput}</td>
@@ -33,14 +40,17 @@ $(document).ready(function () {
         <td>${nextTrainTime}</td>
         <td>${minutesTillTrain}</td>
       </tr>
-    ]
+    `
 
+    // append saved data to the table
     $("#trainSchedule").append(newRow);
+    // clear the fields for next search
     $("#trainNameInput").val("");
     $("#destinationInput").val("");
     $("#trainTimeInput").val("");
     $("#frequencyInput").val("");
 
+    // send info to the firebase database
     database.ref().set({
       trainName: trainName,
       destination: destination,
