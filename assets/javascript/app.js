@@ -34,13 +34,16 @@ $(document).ready(function () {
     var nextTrainTime = moment(nextTrain).format("hh:mm");
     var newRow = `
       <tr>
-        <td>${trainNameInput}</td>
-        <td>${destinationInput}</td>
-        <td>${frequencyInput}</td>
+        <td>${trainName}</td>
+        <td>${destination}</td>
+        <td>${frequency}</td>
         <td>${nextTrainTime}</td>
         <td>${minutesTillTrain}</td>
       </tr>
     `
+    console.log(trainName);
+    console.log(destination);
+    console.log(frequency);
 
     // append saved data to the table
     $("#trainSchedule").append(newRow);
