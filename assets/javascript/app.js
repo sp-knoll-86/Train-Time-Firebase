@@ -13,10 +13,6 @@ $(document).ready(function () {
 
   // set the var database to firebase
   var database = firebase.database();
-  var trainName = "";
-  var destination = "";
-  var firstTrain = "";
-  var frequency = "";
 
   // on click function to grab information input from user
   $("#addTrainBtn").on("click", function () {
